@@ -5,16 +5,17 @@ using AcApp = Autodesk.AutoCAD.ApplicationServices.Core.Application;
 #endif
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.GraphicsInterface;
 using Autodesk.AutoCAD.Windows;
 using Autodesk.AutoCAD.Runtime;
-using mpMsg;
 using mpProductInt;
 using ModPlus;
+using ModPlus.Helpers;
+using ModPlusAPI;
+using ModPlusAPI.Windows;
 using Exception = System.Exception;
 
 namespace mpPrPosition
@@ -24,12 +25,12 @@ namespace mpPrPosition
         [CommandMethod("ModPlus", "mpPrPosition", CommandFlags.UsePickSet)]
         public void AddPositions()
         {
+            Statistic.SendCommandStarting(new Interface());
+
             var doc = AcApp.DocumentManager.MdiActiveDocument;
             var ed = doc.Editor;
             var db = doc.Database;
-
-            //var filList = new[] { new TypedValue((int)DxfCode.Start, "INSERT") };
-            //var filter = new SelectionFilter(filList);
+            
             var opts = new PromptSelectionOptions();
             opts.Keywords.Add("Удалить");
             var kws = opts.Keywords.GetDisplayString(true);
@@ -136,7 +137,7 @@ namespace mpPrPosition
 
                 catch (Exception ex)
                 {
-                    MpExWin.Show(ex);
+                    ExceptionBox.Show(ex);
                 }
                 finally
                 {
@@ -186,7 +187,7 @@ namespace mpPrPosition
 
                 catch (Exception ex)
                 {
-                    MpExWin.Show(ex);
+                    ExceptionBox.Show(ex);
                 }
                 finally
                 {
@@ -403,7 +404,7 @@ namespace mpPrPosition
 
                     catch (Exception ex)
                     {
-                        MpExWin.Show(ex);
+                        ExceptionBox.Show(ex);
                     }
                     finally
                     {
@@ -528,8 +529,7 @@ namespace mpPrPosition
             var wg = draw.Geometry;
             if (wg != null)
             {
-                const string arrowName = "_NONE";
-                var arrId = MpCadHelpers.GetArrowObjectId(arrowName);
+                var arrId = AutocadHelpers.GetArrowObjectId(AutocadHelpers.StandardArrowhead._NONE);
 
                 var mtxt = new MText
                 {
