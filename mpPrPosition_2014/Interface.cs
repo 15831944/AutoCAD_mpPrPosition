@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ModPlusAPI.Interfaces;
 
 namespace mpPrPosition
@@ -8,7 +9,9 @@ namespace mpPrPosition
         public SupportedProduct SupportedProduct => SupportedProduct.AutoCAD;
         public string Name => "mpPrPosition";
         public string AvailProductExternalVersion => "2014";
-        public string ClassName => string.Empty;
+        public string FullClassName => string.Empty;
+        public string AppFullClassName => string.Empty;
+        public Guid AddInId => Guid.Empty;
         public string LName => "Позиция изделий";
         public string Description => "Функция добавляет/удаляет позицию в выбранные изделия и позволяет проставить маркировку позиции";
         public string Author => "Пекшев Александр aka Modis";
