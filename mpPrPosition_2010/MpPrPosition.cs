@@ -22,6 +22,8 @@ namespace mpPrPosition
 {
     public class MpPrPosition : IExtensionApplication
     {
+        private const string LangItem = "mpPrPosition";
+
         [CommandMethod("ModPlus", "mpPrPosition", CommandFlags.UsePickSet)]
         public void AddPositions()
         {
@@ -32,12 +34,12 @@ namespace mpPrPosition
             var db = doc.Database;
             
             var opts = new PromptSelectionOptions();
-            opts.Keywords.Add("Удалить");
+            opts.Keywords.Add(Language.GetItem(LangItem, "h2"));
             var kws = opts.Keywords.GetDisplayString(true);
-            opts.MessageForAdding = "\nВыберите объекты, относящиеся к изделиям ModPlus: " + kws;
+            opts.MessageForAdding = "\n" + Language.GetItem(LangItem, "h1") + ": " + kws;
             opts.KeywordInput += delegate (object sender, SelectionTextInputEventArgs e)
             {
-                if (e.Input.Equals("Удалить"))
+                if (e.Input.Equals(Language.GetItem(LangItem, "h2")))
                     DeletePositions();
             };
             //var res = ed.GetSelection(opts, filter);
@@ -79,7 +81,8 @@ namespace mpPrPosition
                                     // Подсвечиваем
                                     ent.Highlight();
                                     // Запрос пользователю
-                                    var pso = new PromptStringOptions("Элемент: " + element + ". Укажите позицию: ")
+                                    var pso = new PromptStringOptions(
+                                        Language.GetItem(LangItem, "h3") + ": " + element + ". " + Language.GetItem(LangItem, "h4") + ": ")
                                     {
                                         AllowSpaces = true
                                     };
@@ -159,7 +162,7 @@ namespace mpPrPosition
             var db = HostApplicationServices.WorkingDatabase;
             var opts = new PromptSelectionOptions
             {
-                MessageForAdding = "\nВыберите объекты, относящиеся к изделиям ModPlus, для удаления позиции: "
+                MessageForAdding = "\n" + Language.GetItem(LangItem, "h5") + ": "
             };
             var res = ed.GetSelection(opts);
             if (res.Status != PromptStatus.OK)
@@ -232,7 +235,10 @@ namespace mpPrPosition
             }
             else
             {
-                var pko = new PromptKeywordOptions("Выберите тип маркировки для изделия: " + element + " Позиция: " + posTxt + ": [Ничего/Текст/Выноска]", "Nothing Text Leader")
+                var pko = new PromptKeywordOptions(
+                    Language.GetItem(LangItem, "h6") + ": " + element + " " +
+                    Language.GetItem(LangItem, "h7") + ": " + posTxt + ": [" +
+                    Language.GetItem(LangItem, "h8") + "]", "Nothing Text Leader")
                 {
                     AllowArbitraryInput = true,
                     AllowNone = false
@@ -335,13 +341,14 @@ namespace mpPrPosition
     }
     public class ObjectContextMenu
     {
+        private const string LangItem = "mpPrPosition";
         public static ContextMenuExtension MpPrPositionMarkCme;
         public static void Attach()
         {
             if (MpPrPositionMarkCme == null)
             {
                 MpPrPositionMarkCme = new ContextMenuExtension();
-                var miEnt = new MenuItem("MP:Выноска с маркой");
+                var miEnt = new MenuItem(Language.GetItem(LangItem, "h9"));
                 miEnt.Click += SendCommand;
                 MpPrPositionMarkCme.MenuItems.Add(miEnt);
                 //ADD the popup item
@@ -447,10 +454,7 @@ namespace mpPrPosition
         // Обработка выпадающего меню
         static void contextMenu_Popup(object sender, EventArgs e)
         {
-
-            var contextMenu = sender as ContextMenuExtension;
-
-            if (contextMenu != null)
+            if (sender is ContextMenuExtension contextMenu)
             {
                 var doc = AcApp.DocumentManager.MdiActiveDocument;
                 var ed = doc.Editor;
@@ -469,8 +473,7 @@ namespace mpPrPosition
                             using (var tr = doc.TransactionManager.StartTransaction())
                             {
                                 var entity = tr.GetObject(ids[0], OpenMode.ForRead) as Entity;
-                                var mpProductToSave = XDataHelpersForProducts.NewFromEntity(entity) as MpProductToSave;
-                                mVisible = mpProductToSave != null;
+                                mVisible = XDataHelpersForProducts.NewFromEntity(entity) is MpProductToSave;
                             }
                         }
                         else mVisible = false;
@@ -486,8 +489,10 @@ namespace mpPrPosition
             }
         }
     }
-    class MLeaderJig : DrawJig
+
+    internal class MLeaderJig : DrawJig
     {
+        private const string LangItem = "mpPrPosition";
         private MLeader _mleader;
         public Point3d FirstPoint;
         public string MlText;
@@ -507,7 +512,7 @@ namespace mpPrPosition
                 UseBasePoint = true,
                 UserInputControls = UserInputControls.Accept3dCoordinates |
                                     UserInputControls.GovernedByUCSDetect,
-                Message = "\nТочка вставки: "
+                Message = "\n" + Language.GetItem(LangItem, "h10") + ": "
             };
 
             var res = prompts.AcquirePoint(jpo);
