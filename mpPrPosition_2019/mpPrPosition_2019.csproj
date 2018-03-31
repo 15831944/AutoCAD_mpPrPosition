@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{176626A6-5963-406B-B098-02F64096BFEF}</ProjectGuid>
+    <ProjectGuid>{E203D1E1-15F0-414B-AB88-DA8C03033661}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>mpPrPosition</RootNamespace>
-    <AssemblyName>mpPrPosition_2015</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <AssemblyName>mpPrPosition_2019</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -31,23 +31,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="accoremgd">
-      <HintPath>..\..\..\..\_Acad dlls\2015\accoremgd.dll</HintPath>
+      <HintPath>..\..\..\..\_Acad dlls\2019\accoremgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="acdbmgd">
-      <HintPath>..\..\..\..\_Acad dlls\2015\acdbmgd.dll</HintPath>
+      <HintPath>..\..\..\..\_Acad dlls\2019\acdbmgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="acmgd">
-      <HintPath>..\..\..\..\_Acad dlls\2015\acmgd.dll</HintPath>
+      <HintPath>..\..\..\..\_Acad dlls\2019\acmgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ModPlusAPI">
       <HintPath>..\..\..\..\..\..\..\ModPlus\Extensions\ModPlusAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ModPlus_2015">
-      <HintPath>..\..\..\..\..\..\..\ModPlus\Extensions\ModPlus_2015.dll</HintPath>
+    <Reference Include="ModPlus_2019">
+      <HintPath>..\..\..\..\..\..\..\ModPlus\Extensions\ModPlus_2019.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="mpBaseInt">
@@ -59,6 +59,21 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
+    <!--
+    
+    <Reference Include="System.Core"/>
+    <Reference Include="System.Xml.Linq"/>
+    <Reference Include="System.Data.DataSetExtensions"/>
+    
+    
+    <Reference Include="Microsoft.CSharp"/>
+    
+    <Reference Include="System.Data"/>
+    
+    <Reference Include="System.Net.Http"/>
+    
+    <Reference Include="System.Xml"/>
+	-->
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\mpPrPosition_2010\MpPrPosition.cs">
@@ -76,11 +91,4 @@
     </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
