@@ -16,30 +16,30 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\..\..\..\ModPlus\Functions\mpPrPosition\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;ac2013</DefineConstants>
+    <OutputPath>..\..\..\..\..\..\..\ModPlus\Functions\AutoCAD\mpPrPosition\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\..\..\..\ModPlus\Functions\mpPrPosition\</OutputPath>
-    <DefineConstants>TRACE;ac2013</DefineConstants>
+    <OutputPath>..\..\..\..\..\..\..\ModPlus\Functions\AutoCAD\mpPrPosition\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="accoremgd">
-      <HintPath>..\..\..\..\_Acad dlls\2015\accoremgd.dll</HintPath>
+      <HintPath>C:\_Acad dlls\2015\accoremgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="acdbmgd">
-      <HintPath>..\..\..\..\_Acad dlls\2015\acdbmgd.dll</HintPath>
+      <HintPath>C:\_Acad dlls\2015\acdbmgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="acmgd">
-      <HintPath>..\..\..\..\_Acad dlls\2015\acmgd.dll</HintPath>
+      <HintPath>C:\_Acad dlls\2015\acmgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ModPlusAPI">
@@ -61,18 +61,28 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\mpPrPosition_2010\MpPrPosition.cs">
+    <Compile Include="..\mpPrPosition_2013\MpPrPosition.cs">
       <Link>MpPrPosition.cs</Link>
+    </Compile>
+    <Compile Include="..\mpPrPosition_2013\Properties\AssemblyInfoCommon.cs">
+      <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Interface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Resource Include="..\mpPrPosition_2010\Resources\MpPrPosition_16x16.png">
-      <Link>Resources\MpPrPosition_16x16.png</Link>
+    <Resource Include="..\mpPrPosition_2013\Resources\mpPrPosition_16x16.png">
+      <Link>Resources\mpPrPosition_16x16.png</Link>
     </Resource>
-    <Resource Include="..\mpPrPosition_2010\Resources\MpPrPosition_32x32.png">
-      <Link>Resources\MpPrPosition_32x32.png</Link>
+    <Resource Include="..\mpPrPosition_2013\Resources\mpPrPosition_16x16_dark.png">
+      <Link>Resources\mpPrPosition_16x16_dark.png</Link>
+    </Resource>
+    <Resource Include="..\mpPrPosition_2013\Resources\mpPrPosition_32x32.png">
+      <Link>Resources\mpPrPosition_32x32.png</Link>
+    </Resource>
+    <Resource Include="..\mpPrPosition_2013\Resources\mpPrPosition_32x32_dark.png">
+      <Link>Resources\mpPrPosition_32x32_dark.png</Link>
     </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

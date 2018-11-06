@@ -1,25 +1,21 @@
-﻿#if ac2010
-using AcApp = Autodesk.AutoCAD.ApplicationServices.Application;
-#elif ac2013
-using AcApp = Autodesk.AutoCAD.ApplicationServices.Core.Application;
-#endif
-using System;
-using System.Collections.Generic;
-using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.Geometry;
-using Autodesk.AutoCAD.GraphicsInterface;
-using Autodesk.AutoCAD.Windows;
-using Autodesk.AutoCAD.Runtime;
-using mpProductInt;
-using ModPlus;
-using ModPlus.Helpers;
-using ModPlusAPI;
-using ModPlusAPI.Windows;
-using Exception = System.Exception;
-
-namespace mpPrPosition
+﻿namespace mpPrPosition
 {
+    using AcApp = Autodesk.AutoCAD.ApplicationServices.Core.Application;
+    using System;
+    using System.Collections.Generic;
+    using Autodesk.AutoCAD.DatabaseServices;
+    using Autodesk.AutoCAD.EditorInput;
+    using Autodesk.AutoCAD.Geometry;
+    using Autodesk.AutoCAD.GraphicsInterface;
+    using Autodesk.AutoCAD.Windows;
+    using Autodesk.AutoCAD.Runtime;
+    using mpProductInt;
+    using ModPlus;
+    using ModPlus.Helpers;
+    using ModPlusAPI;
+    using ModPlusAPI.Windows;
+    using Exception = System.Exception;
+
     public class MpPrPosition : IExtensionApplication
     {
         private const string LangItem = "mpPrPosition";
@@ -53,7 +49,7 @@ namespace mpPrPosition
                 {
                     // Создаем список "элемент + марка" и список позиций
                     var elements = new List<string>();
-                    var elementsExsist = new List<string>();
+                    var elementsExist = new List<string>();
                     var positions = new List<string>();
                     var markTypes = new List<int>();
                     // Тип маркировки
@@ -75,7 +71,7 @@ namespace mpPrPosition
                                 var element = product.GetNameByRule();
                                 if (!element.Contains(product.BaseDocument.ShortName))
                                     element = product.BaseDocument.ShortName + " " + element;
-                                // Если еще небыло
+                                // Если еще не было
                                 if (!elements.Contains(element))
                                 {
                                     // Подсвечиваем
@@ -116,13 +112,13 @@ namespace mpPrPosition
                                 // Подсвечиваем
                                 ent.Highlight();
                                 var element = product.GetNameByRule();
-                                // Если еще небыло
-                                if (!elementsExsist.Contains(element))
+                                // Если еще не было
+                                if (!elementsExist.Contains(element))
                                 {
                                     // Маркировка
                                     AddPositionMarker(ent, 0, product.Position, element, out markType);
                                     elements.Add(element);
-                                    elementsExsist.Add(element);
+                                    elementsExist.Add(element);
                                     markTypes.Add(markType);
                                 }
                                 else
@@ -493,7 +489,7 @@ namespace mpPrPosition
     internal class MLeaderJig : DrawJig
     {
         private const string LangItem = "mpPrPosition";
-        private MLeader _mleader;
+        private MLeader _mLeader;
         public Point3d FirstPoint;
         public string MlText;
         private Point3d _secondPoint;
@@ -501,7 +497,7 @@ namespace mpPrPosition
 
         public MLeader MLeader()
         {
-            return _mleader;
+            return _mLeader;
         }
 
         protected override SamplerStatus Sampler(JigPrompts prompts)
@@ -536,31 +532,31 @@ namespace mpPrPosition
             {
                 var arrId = AutocadHelpers.GetArrowObjectId(AutocadHelpers.StandardArrowhead._NONE);
 
-                var mtxt = new MText
+                var mText = new MText
                 {
                     Contents = MlText,
                     Location = _secondPoint,
                     Annotative = AnnotativeStates.True
                 };
-                mtxt.SetDatabaseDefaults();
+                mText.SetDatabaseDefaults();
 
-                _mleader = new MLeader();
-                var ldNum = _mleader.AddLeader();
-                _mleader.AddLeaderLine(ldNum);
-                _mleader.ContentType = ContentType.MTextContent;
-                _mleader.ArrowSymbolId = arrId;
-                _mleader.MText = mtxt;
-                _mleader.TextAlignmentType = TextAlignmentType.LeftAlignment;
-                _mleader.TextAttachmentType = TextAttachmentType.AttachmentBottomOfTopLine;
-                _mleader.TextAngleType = TextAngleType.HorizontalAngle;
-                _mleader.EnableAnnotationScale = true;
-                _mleader.Annotative = AnnotativeStates.True;
-                _mleader.AddFirstVertex(ldNum, FirstPoint);
-                _mleader.AddLastVertex(ldNum, _secondPoint);
-                _mleader.LeaderLineType = LeaderType.StraightLeader;
-                _mleader.SetDatabaseDefaults();
+                _mLeader = new MLeader();
+                var ldNum = _mLeader.AddLeader();
+                _mLeader.AddLeaderLine(ldNum);
+                _mLeader.ContentType = ContentType.MTextContent;
+                _mLeader.ArrowSymbolId = arrId;
+                _mLeader.MText = mText;
+                _mLeader.TextAlignmentType = TextAlignmentType.LeftAlignment;
+                _mLeader.TextAttachmentType = TextAttachmentType.AttachmentBottomOfTopLine;
+                _mLeader.TextAngleType = TextAngleType.HorizontalAngle;
+                _mLeader.EnableAnnotationScale = true;
+                _mLeader.Annotative = AnnotativeStates.True;
+                _mLeader.AddFirstVertex(ldNum, FirstPoint);
+                _mLeader.AddLastVertex(ldNum, _secondPoint);
+                _mLeader.LeaderLineType = LeaderType.StraightLeader;
+                _mLeader.SetDatabaseDefaults();
 
-                draw.Geometry.Draw(_mleader);
+                draw.Geometry.Draw(_mLeader);
             }
             return true;
         }
