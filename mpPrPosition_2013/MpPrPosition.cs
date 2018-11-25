@@ -3,6 +3,7 @@
     using AcApp = Autodesk.AutoCAD.ApplicationServices.Core.Application;
     using System;
     using System.Collections.Generic;
+    using Autodesk.AutoCAD.ApplicationServices;
     using Autodesk.AutoCAD.DatabaseServices;
     using Autodesk.AutoCAD.EditorInput;
     using Autodesk.AutoCAD.Geometry;
@@ -150,6 +151,7 @@
                 }
             }
         }
+        
         // Удаление позиций
         private static void DeletePositions()
         {
@@ -327,12 +329,71 @@
 
         public void Initialize()
         {
-            ObjectContextMenu.Attach();
+            //ObjectContextMenu.Attach();
+            AcApp.DocumentManager.DocumentCreated += Documents_DocumentCreated;
+            AcApp.DocumentManager.DocumentActivated += Documents_DocumentActivated;
+
+            foreach (Document document in AcApp.DocumentManager)
+            {
+                document.ImpliedSelectionChanged += Document_ImpliedSelectionChanged;
+            }
         }
 
         public void Terminate()
         {
             // nothing
+        }
+
+        private static void Documents_DocumentActivated(object sender, DocumentCollectionEventArgs e)
+        {
+            if (e.Document != null)
+            {
+                e.Document.ImpliedSelectionChanged -= Document_ImpliedSelectionChanged;
+                e.Document.ImpliedSelectionChanged += Document_ImpliedSelectionChanged;
+            }
+        }
+
+        private static void Documents_DocumentCreated(object sender, DocumentCollectionEventArgs e)
+        {
+            if (e.Document != null)
+            {
+                e.Document.ImpliedSelectionChanged -= Document_ImpliedSelectionChanged;
+                e.Document.ImpliedSelectionChanged += Document_ImpliedSelectionChanged;
+            }
+        }
+
+        private static void Document_ImpliedSelectionChanged(object sender, EventArgs e)
+        {
+            PromptSelectionResult psr = AcApp.DocumentManager.MdiActiveDocument.Editor.SelectImplied();
+            bool detach = true;
+            if (psr.Value != null && psr.Value.Count == 1)
+            {
+                using (AcApp.DocumentManager.MdiActiveDocument.LockDocument())
+                {
+                    using (OpenCloseTransaction tr = new OpenCloseTransaction())
+                    {
+                        foreach (SelectedObject selectedObject in psr.Value)
+                        {
+                            if (selectedObject.ObjectId == ObjectId.Null)
+                                continue;
+                            var obj = tr.GetObject(selectedObject.ObjectId, OpenMode.ForRead);
+                            if (obj is Entity entity)
+                            {
+                                var xData = entity.GetXDataForApplication("ModPlusProduct");
+                                if (xData != null)
+                                {
+                                    ObjectContextMenu.Attach();
+                                    detach = false;
+                                }
+                            }
+                        }
+
+                        tr.Commit();
+                    }
+                }
+            }
+            if (detach)
+                ObjectContextMenu.Detach();
         }
     }
     public class ObjectContextMenu
@@ -347,19 +408,16 @@
                 var miEnt = new MenuItem(Language.GetItem(LangItem, "h9"));
                 miEnt.Click += SendCommand;
                 MpPrPositionMarkCme.MenuItems.Add(miEnt);
-                //ADD the popup item
-                MpPrPositionMarkCme.Popup += contextMenu_Popup;
-
-                var rxcEnt = RXObject.GetClass(typeof(Entity));
-                Autodesk.AutoCAD.ApplicationServices.Application.AddObjectContextMenuExtension(rxcEnt, MpPrPositionMarkCme);
             }
+            var rxcEnt = RXObject.GetClass(typeof(Entity));
+            Application.AddObjectContextMenuExtension(rxcEnt, MpPrPositionMarkCme);
         }
         public static void Detach()
         {
             if (MpPrPositionMarkCme != null)
             {
                 var rxcEnt = RXObject.GetClass(typeof(Entity));
-                Autodesk.AutoCAD.ApplicationServices.Application.RemoveObjectContextMenuExtension(rxcEnt, MpPrPositionMarkCme);
+                Application.RemoveObjectContextMenuExtension(rxcEnt, MpPrPositionMarkCme);
             }
         }
 
@@ -367,6 +425,7 @@
         {
             AcApp.DocumentManager.MdiActiveDocument.SendStringToExecute("_.MPLEADERWITHMARKFORPRODUCT ", true, false, false);
         }
+
         [CommandMethod("ModPlus", "mpLeaderWithMarkForProduct", CommandFlags.UsePickSet)]
         public static void AddLeaderWithMark()
         {
@@ -416,6 +475,7 @@
                 }
             }
         }
+
         private static void AddLeaderMark(Entity ent, string posTxt)
         {
             var doc = AcApp.DocumentManager.MdiActiveDocument;
@@ -444,43 +504,6 @@
                     tr.AddNewlyCreatedDBObject(jig.MLeader(), true);
                     tr.TransactionManager.QueueForGraphicsFlush();
                     tr.Commit();
-                }
-            }
-        }
-        // Обработка выпадающего меню
-        static void contextMenu_Popup(object sender, EventArgs e)
-        {
-            if (sender is ContextMenuExtension contextMenu)
-            {
-                var doc = AcApp.DocumentManager.MdiActiveDocument;
-                var ed = doc.Editor;
-                // This is the "Root context menu" item
-                var rootItem = contextMenu.MenuItems[0];
-                try
-                {
-                    var acSsPrompt = ed.SelectImplied();
-                    var mVisible = true;
-                    if (acSsPrompt.Status == PromptStatus.OK)
-                    {
-                        var set = acSsPrompt.Value;
-                        var ids = set.GetObjectIds();
-                        if (acSsPrompt.Value.Count == 1)
-                        {
-                            using (var tr = doc.TransactionManager.StartTransaction())
-                            {
-                                var entity = tr.GetObject(ids[0], OpenMode.ForRead) as Entity;
-                                mVisible = XDataHelpersForProducts.NewFromEntity(entity) is MpProductToSave;
-                            }
-                        }
-                        else mVisible = false;
-                    }
-
-                    rootItem.Visible = mVisible;
-
-                }
-                catch 
-                {
-                    //
                 }
             }
         }
