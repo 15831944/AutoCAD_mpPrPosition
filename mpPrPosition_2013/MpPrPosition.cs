@@ -24,7 +24,7 @@
         [CommandMethod("ModPlus", "mpPrPosition", CommandFlags.UsePickSet)]
         public void AddPositions()
         {
-            Statistic.SendCommandStarting(new Interface());
+            Statistic.SendCommandStarting(new ModPlusConnector());
 
             var doc = AcApp.DocumentManager.MdiActiveDocument;
             var ed = doc.Editor;
