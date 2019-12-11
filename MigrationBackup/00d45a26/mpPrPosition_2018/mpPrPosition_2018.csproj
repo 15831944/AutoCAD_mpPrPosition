@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2C8F103A-47C7-47C5-B632-049CEAFC626F}</ProjectGuid>
+    <ProjectGuid>{8812977C-7D8F-40ED-82AA-0719AE4378BA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>mpPrPosition</RootNamespace>
-    <AssemblyName>mpPrPosition_2017</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <AssemblyName>mpPrPosition_2018</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -17,7 +17,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;A2017</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;A2018</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -25,7 +25,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;A2017</DefineConstants>
+    <DefineConstants>TRACE;A2018</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -33,24 +33,27 @@
     <CodeAnalysisRuleSet>$(SolutionDir)\ModPlus.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ModPlusAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ModPlusAPI.1.2.6.7\lib\ModPlusAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="ModPlusService.Dto, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ModPlusAPI.1.2.6.7\lib\ModPlusService.Dto.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\mpPrPosition_2013\MLeaderJig.cs">
-      <Link>MLeaderJig.cs</Link>
-    </Compile>
     <Compile Include="..\mpPrPosition_2013\ModPlusConnector.cs">
       <Link>ModPlusConnector.cs</Link>
     </Compile>
     <Compile Include="..\mpPrPosition_2013\MpPrPosition.cs">
       <Link>MpPrPosition.cs</Link>
     </Compile>
-    <Compile Include="..\mpPrPosition_2013\ObjectContextMenu.cs">
-      <Link>ObjectContextMenu.cs</Link>
-    </Compile>
     <Compile Include="..\mpPrPosition_2013\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="..\mpPrPosition_2013\Resources\mpPrPosition_16x16.png">
@@ -67,27 +70,8 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ModPlus.AutoCAD.API.2017">
-      <Version>1.0.0</Version>
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </PackageReference>
-    <PackageReference Include="ModPlus.AutoCAD.Module.2017">
-      <Version>4.2.9.1</Version>
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </PackageReference>
-    <PackageReference Include="ModPlus.ProductDatabase">
-      <Version>2.2.0.11</Version>
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </PackageReference>
-    <PackageReference Include="ModPlusAPI">
-      <Version>1.3.0</Version>
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers">
-      <Version>1.1.118</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -32,45 +32,24 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>$(SolutionDir)\ModPlus.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="accoremgd">
-      <HintPath>C:\_Acad dlls\2020\accoremgd.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="acdbmgd">
-      <HintPath>C:\_Acad dlls\2020\acdbmgd.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="acmgd">
-      <HintPath>C:\_Acad dlls\2020\acmgd.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="ModPlusAPI">
-      <HintPath>..\..\..\..\..\..\..\ModPlus\Extensions\ModPlusAPI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="ModPlus_2020">
-      <HintPath>..\..\..\..\..\..\..\ModPlus\Extensions\ModPlus_2020.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="mpBaseInt">
-      <HintPath>..\..\..\..\..\..\..\ModPlus\Data\mpBaseInt.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="mpProductInt">
-      <HintPath>..\..\..\..\..\..\..\ModPlus\Data\mpProductInt.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <Compile Include="..\mpPrPosition_2013\MLeaderJig.cs">
+      <Link>MLeaderJig.cs</Link>
+    </Compile>
     <Compile Include="..\mpPrPosition_2013\ModPlusConnector.cs">
       <Link>ModPlusConnector.cs</Link>
     </Compile>
     <Compile Include="..\mpPrPosition_2013\MpPrPosition.cs">
       <Link>MpPrPosition.cs</Link>
+    </Compile>
+    <Compile Include="..\mpPrPosition_2013\ObjectContextMenu.cs">
+      <Link>ObjectContextMenu.cs</Link>
     </Compile>
     <Compile Include="..\mpPrPosition_2013\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
@@ -95,6 +74,29 @@
     <Resource Include="..\mpprposition_2013\resources\mpPrPosition_32x32_dark.png">
       <Link>Resources\mpPrPosition_32x32_dark.png</Link>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ModPlus.AutoCAD.API.2020">
+      <Version>1.0.0</Version>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="ModPlus.AutoCAD.Module.2020">
+      <Version>4.2.9.1</Version>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="ModPlus.ProductDatabase">
+      <Version>2.2.0.11</Version>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="ModPlusAPI">
+      <Version>1.3.0</Version>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers">
+      <Version>1.1.118</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
